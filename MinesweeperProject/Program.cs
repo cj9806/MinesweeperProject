@@ -14,33 +14,86 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            //initalize raylib
+            //---------------------------------------------------------------------------
+            const int screenWidth = 1400;
+            const int screenHeight= 800;
+
+            InitWindow(screenWidth, screenHeight, "meenswipper");
+
+            SetTargetFPS(60);
+            //---------------------------------------------------------------------------
+            int squareHeight = 45;
+
             Random random = new Random();
             HardBoard board = new HardBoard();
-            int bombCount = 0;
-            while (bombCount < board.maxBombs)
+            //generate bombs on the game board
+            //---------------------------------------------------------------------------
+            while (board.bombCount < board.maxBombs)
             {
-                for(int i =  0; i < board.size.GetLength(0);i++)
+                for (int i = 0; i < board.size.GetLength(0); i++)
                 {
-                    for(int j = 0; j < board.size.GetLength(1); j++)
+                    for (int j = 0; j < board.size.GetLength(1); j++)
                     {
                         int place = board.size[i, j];
                         board.size[i, j] = random.Next(0, 2);
-                        if (board.size[i,j] == 1 && bombCount < board.maxBombs)
-                            bombCount ++;
+                        if (board.size[i, j] == 1 && board.bombCount < board.maxBombs)
+                            board.bombCount++;
                     }
                 }
             }
+            //---------------------------------------------------------------------------
+
+            //printing it out inthe consolefor debugging
             
-            for(int i = 0; i < board.size.GetLength(0); i++)
+            for (int i = 0; i < board.size.GetLength(0); i++)
             {
-                for(int j = 0; j < board.size.GetLength(1); j++)
+                for (int j = 0; j < board.size.GetLength(1); j++)
                 {
                     Console.Write(board.size[i, j]);
                 }
                 Console.WriteLine();
+                }
+            //main game loop
+           
+            while (!WindowShouldClose())
+            {
+                //update step
+                //-----------------------------------------------------------------------
+
+                //-----------------------------------------------------------------------
+                //movement step
+                //-----------------------------------------------------------------------
+
+                //-----------------------------------------------------------------------
+                //draw step
+                //-----------------------------------------------------------------------
+                BeginDrawing();
+                ClearBackground(DARKGREEN);
+                //largest play area background
+                {
+                //45 tile width * 30 tiles + 1px border per tile = 1380play area width
+                //45 tile heigt * 16 tiles + 1px border per tile = 750 play area heigt
+                }                
+                DrawRectangle(10, 41, 1379, 735, BROWN);
+                for (int i = 0; i < board.size.GetLength(0); i++)
+                {
+                    for (int j = 0; j < board.size.GetLength(1); j++)
+                    {
+                        if (board.size[i, j] == 1)
+                            DrawCircle(j * 45 + 32 + j, i * 45 + 63 + i, 22.5F, BLACK);
+                        DrawRectangle(j * 45 + 10+j, i * 45 + 41+i, 45, 45, GREEN);
+                        
+                    }
+                }
+                EndDrawing();
+                //-----------------------------------------------------------------------
             }
-            Console.ReadLine();
-            
+            //deinitilization
+            //---------------------------------------------------------------------------
+            CloseWindow();
+            //---------------------------------------------------------------------------
         }
     }
 }
+

@@ -20,6 +20,6 @@ namespace MinesweeperProject
             {0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0}
         };
-        public int maxBombs = 10;
+        new public int maxBombs = 10;
     }
 }
