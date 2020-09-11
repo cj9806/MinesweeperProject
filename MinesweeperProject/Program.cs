@@ -23,25 +23,26 @@ namespace ConsoleApp1
 
             SetTargetFPS(60);
             //---------------------------------------------------------------------------
-            int squareHeight = 45;
+            
 
             Random random = new Random();
             HardBoard board = new HardBoard();
             //generate bombs on the game board
             //---------------------------------------------------------------------------
-            while (board.bombCount < board.maxBombs)
-            {
-                for (int i = 0; i < board.size.GetLength(0); i++)
-                {
-                    for (int j = 0; j < board.size.GetLength(1); j++)
-                    {
-                        int place = board.size[i, j];
-                        board.size[i, j] = random.Next(0, 2);
-                        if (board.size[i, j] == 1 && board.bombCount < board.maxBombs)
-                            board.bombCount++;
-                    }
-                }
-            }
+            //while (board.bombCount < board.maxBombs)
+            //{
+            //    for (int i = 0; i < board.size.GetLength(0); i++)
+            //    {
+            //        for (int j = 0; j < board.size.GetLength(1); j++)
+            //        {
+            //            int place = board.size[i, j];
+            //            board.size[i, j] = random.Next(0, 2);
+            //            if (board.size[i, j] == 1 && board.bombCount < board.maxBombs)
+            //                board.bombCount++;
+            //        }
+            //    }
+            //}
+            board.Populate();
             //---------------------------------------------------------------------------
 
             //printing it out inthe consolefor debugging
@@ -60,11 +61,11 @@ namespace ConsoleApp1
             {
                 //update step
                 //-----------------------------------------------------------------------
-
+                Vector2 mousePos = GetMousePosition();
                 //-----------------------------------------------------------------------
                 //movement step
                 //-----------------------------------------------------------------------
-
+                  
                 //-----------------------------------------------------------------------
                 //draw step
                 //-----------------------------------------------------------------------
@@ -81,8 +82,10 @@ namespace ConsoleApp1
                     for (int j = 0; j < board.size.GetLength(1); j++)
                     {
                         if (board.size[i, j] == 1)
-                            DrawCircle(j * 45 + 32 + j, i * 45 + 63 + i, 22.5F, BLACK);
-                        DrawRectangle(j * 45 + 10+j, i * 45 + 41+i, 45, 45, GREEN);
+                            DrawRectangle(j * 45 + 10 + j, i * 45 + 41 + i, 45, 45, RED);
+                            //DrawCircle(j * 45 + 32 + j, i * 45 + 63 + i, 22.5F, BLACK);
+                        else
+                            DrawRectangle(j * 45 + 10+j, i * 45 + 41+i, 45, 45, GREEN);
                         
                     }
                 }
