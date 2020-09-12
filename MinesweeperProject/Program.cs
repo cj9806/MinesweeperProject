@@ -24,9 +24,12 @@ namespace ConsoleApp1
             SetTargetFPS(60);
             //---------------------------------------------------------------------------
             
-
+            //class initilizers
             Random random = new Random();
-            HardBoard board = new HardBoard();
+            Board board = new Board();
+            GameTiles tiles = new GameTiles();
+            //structure initilizers
+            Rectangle button = new Rectangle(100, 100, 200, 80 );
             //generate bombs on the game board
             //---------------------------------------------------------------------------
             //while (board.bombCount < board.maxBombs)
@@ -42,7 +45,7 @@ namespace ConsoleApp1
             //        }
             //    }
             //}
-            board.Populate();
+            board.Populate(16,30,99);
             //---------------------------------------------------------------------------
 
             //printing it out inthe consolefor debugging
@@ -55,6 +58,7 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
                 }
+            Console.WriteLine("bomb count = " + board.bombCount);
             //main game loop
            
             while (!WindowShouldClose())
@@ -75,21 +79,23 @@ namespace ConsoleApp1
                 {
                 //45 tile width * 30 tiles + 1px border per tile = 1380play area width
                 //45 tile heigt * 16 tiles + 1px border per tile = 750 play area heigt
-                }                
+                }
+                DrawText($"mouse pos = {mousePos.X},{mousePos.Y}",10,10,30,BLACK);
                 DrawRectangle(10, 41, 1379, 735, BROWN);
+                tiles.DrawBoard(41,10,board.size.GetLength(0),board.size.GetLength(1));
                 for (int i = 0; i < board.size.GetLength(0); i++)
                 {
                     for (int j = 0; j < board.size.GetLength(1); j++)
                     {
-                        if (board.size[i, j] == 1)
-                            DrawRectangle(j * 45 + 10 + j, i * 45 + 41 + i, 45, 45, RED);
-                            //DrawCircle(j * 45 + 32 + j, i * 45 + 63 + i, 22.5F, BLACK);
-                        else
-                            DrawRectangle(j * 45 + 10+j, i * 45 + 41+i, 45, 45, GREEN);
-                        
+                        if (board.size[i, j] == "#")
+                            DrawCircle(j * 45 + 32 + j, i * 45 + 63 + i, 22.5F, BLACK);
+
+
                     }
                 }
                 EndDrawing();
+                
+                
                 //-----------------------------------------------------------------------
             }
             //deinitilization
