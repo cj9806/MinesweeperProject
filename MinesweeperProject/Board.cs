@@ -11,7 +11,6 @@ namespace MinesweeperProject
     class Board
     {
         Random random = new Random();
-        GameTiles menu = new GameTiles();
         public string[,] size = { };
         public int bombCount = 0;
         public string[,] Populate(int width, int heigth, int maxBomb)
@@ -258,6 +257,24 @@ namespace MinesweeperProject
             }
             return size;
 
+        }
+        //initial array to track game board
+        public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[16,30];
+        public bool[,] clickBoard = new bool[16,30];
+        // function to create an array of rectangles
+        public void GenBoard(int startX, int startY, int length, int width)
+        {
+
+            for (int i = 0; i < length; i++)
+            {
+
+                for (int j = 0; j < width; j++)
+                {
+                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
+                    clickBoard[i, j] = false;
+                }
+
+            }
         }
 
         //public 
