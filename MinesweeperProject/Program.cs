@@ -29,8 +29,12 @@ namespace ConsoleApp1
             Random random = new Random();
             Board board = new Board();
             string difficulty = "hard";
-            //HardBoard tiles = new HardBoard();
-            //structure initilizers
+            
+            //misc varibles
+            //---------------------------------------------------------------------------
+            int flagsLeft = 99;
+            bool lost = false;
+            //---------------------------------------------------------------------------
             //generate bombs on the game board
             //---------------------------------------------------------------------------            
             board.Populate(16,30,99);
@@ -49,14 +53,13 @@ namespace ConsoleApp1
                 }
             Console.WriteLine("bomb count = " + board.bombCount);
             //main game loop
-            bool leftClick = IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON);
-            bool rightClick = IsMouseButtonDown(MouseButton.MOUSE_RIGHT_BUTTON);
-
             while (!WindowShouldClose())
             {
                 //update step
                 //-----------------------------------------------------------------------
                 Vector2 mousePos = GetMousePosition();
+                bool leftClick = (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON));
+                bool rightClick = IsMouseButtonPressed(MouseButton.MOUSE_RIGHT_BUTTON);
                 //-----------------------------------------------------------------------
                 //play step
                 //-----------------------------------------------------------------------
@@ -64,10 +67,37 @@ namespace ConsoleApp1
                 {
                     for (int j = 0; j < board.size.GetLength(1); j++)
                     {
-                        if (CheckCollisionPointRec(mousePos, board.rectangles[i, j])&& IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
+                        //drop flag
+                        if (CheckCollisionPointRec(mousePos, board.rectangles[i, j]) && rightClick && board.clickBoard[i,j] != "click") 
                         {
-                            board.clickBoard[i, j] = true;
+                            if (board.clickBoard[i, j] != "flag" && flagsLeft > 0)
+                            {
+                                board.clickBoard[i, j] = "flag";
+                                flagsLeft--;
+                            }
+                            else if(board.clickBoard[i,j] == "flag")
+                            { 
+                                board.clickBoard[i, j] = "";
+                                flagsLeft++;
+                            }
                         }
+                        
+                        //clear tile
+                        if (CheckCollisionPointRec(mousePos, board.rectangles[i, j])&& leftClick && board.clickBoard[i,j] != "flag")
+                        {
+                            if (board.size[i, j] != "#")
+                            {
+                                board.clickBoard[i, j] = "click";
+                                //make sure square isnt a bomb
+                                
+
+                            }
+                            else
+                            {
+                                board.clickBoard[i, j] = "click";
+                                lost = true;
+                            }
+                        }                        
                     }
                 }
                 //-----------------------------------------------------------------------
@@ -119,24 +149,28 @@ namespace ConsoleApp1
                     {
                         for (int j = 0; j < board.size.GetLength(1); j++)
                         {
-                            if (!board.clickBoard[i, j])
+                            if (board.clickBoard[i, j] == "" && board.clickBoard[i, j] != "flag")
                                 DrawRectangleRec(board.rectangles[i, j], GREEN);
+                            if (board.clickBoard[i, j] == "flag")
+                                DrawRectangleRec(board.rectangles[i, j], RED);
                         }
                     }
-                }
-                //position tracker to be deleted later
-                for (int i = 0; i < board.size.GetLength(0); i++)
-                {
-                    for (int j = 0; j < board.size.GetLength(1); j++)
+                    if (lost)
                     {
-                        
-                        if (CheckCollisionPointRec(mousePos, board.rectangles[i,j]))
+                        for (int i = 0; i < board.size.GetLength(0); i++)
                         {
-                            DrawText($"mouse pos =  {i+1},{j + 1}", 10, 10, 30, BLACK);
-                        }
+                            for (int j = 0; j < board.size.GetLength(1); j++)
+                            {
+                                if (board.size[i, j] == "#")
+                                    DrawCircle(j * 45 + 32 + j, i * 45 + 63 + i, 22.5F, BLACK);
 
+
+                            }
+                        }
                     }
-                    
+
+                    //display flags left
+                    DrawText($"flags left:{flagsLeft}", 10, 10, 20, BLACK);
                 }
                 EndDrawing();
                 
