@@ -1,24 +1,17 @@
-﻿using MinesweeperProject;
-using static Raylib_cs.Raylib;  // core methods (InitWindow, BeginDrawing())
-using static Raylib_cs.Color;   // color (RAYWHITE, MAROON, etc.)
-using static Raylib_cs.Raymath; // mathematics utilities and operations (Vector2Add, etc.)
-using System.Numerics;          // mathematics types (Vector2, Vector3, etc.)
-using Raylib_cs;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
+
 namespace MinesweeperProject
 {
-    class Board
+    class EasyBoard:Board
     {
         Random random = new Random();
-        public string[,] size = { };
-        public int bombCount = 0;
-        public string[,] Populate()
+        new public string[,] Populate()
         {
-            int width = 0;
-            int heigth = 0;
-            int maxBomb = 0;
-            //Random random = new Random();
+            int width = 8;
+            int heigth = 8;
+            int maxBomb = 10;
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
             {
@@ -97,7 +90,7 @@ namespace MinesweeperProject
                             }
                             //east
                             //more error trapping becuase im inefficent
-                            if (j != 29)
+                            if (j != 7)
                                 if (size[i, j + 1] == "#")
                                 {
                                     surrounded++;
@@ -114,7 +107,7 @@ namespace MinesweeperProject
                             }
                             //southeast
                             //i dont know if theres a simpler way to do this but i dont really care at this point
-                            if (j != 29)
+                            if (j != 7)
                                 if (size[i + 1, j + 1] == "#")
                                 {
                                     surrounded++;
@@ -124,7 +117,7 @@ namespace MinesweeperProject
                         else if (i == width - 1)
                         {
                             //northweast
-                            if (j!=0)
+                            if (j != 0)
                                 if (size[i - 1, j - 1] == "#")
                                 {
                                     surrounded++;
@@ -197,7 +190,7 @@ namespace MinesweeperProject
                             if (size[i, j - 1] == "#")
                             {
                                 surrounded++;
-                            }                           
+                            }
                             //southwest
                             if (size[i + 1, j - 1] == "#")
                             {
@@ -261,29 +254,22 @@ namespace MinesweeperProject
                 }
             }
             return size;
-
         }
-        //initial array to track game board and a shadow array to help track clicks
-        public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[0, 0];
-        public string[,] clickBoard = new string[0, 0];
-        // function to create an array of rectangles
-        public void GenBoard(int startX, int startY)
+        new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[16, 30];
+        new public string[,] clickBoard = new string[16, 30];
+        new public void GenBoard(int startX, int startY)
         {
 
-            for (int i = 0; i < 0; i++)
+            for (int i = 0; i < 8; i++)
             {
 
-                for (int j = 0; j < 0; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
                     clickBoard[i, j] = "";
                 }
 
             }
-        }
-        public void floodFillTrial()
-        {
-
         }
     }
 }

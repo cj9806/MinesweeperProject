@@ -14,6 +14,14 @@ namespace MinesweeperProject
     class Menu
     {
         //"meenswipper"
-        Raylib_cs.Rectangle startButton = new Raylib_cs.Rectangle();
+        public Raylib_cs.Rectangle easyButton = new Raylib_cs.Rectangle(550, 200, 300, 90);
+        public Raylib_cs.Rectangle medButton = new Raylib_cs.Rectangle(550, 310, 300, 90);
+        public Raylib_cs.Rectangle hardButton = new Raylib_cs.Rectangle(550, 420, 300, 90);
+        public Raylib_cs.Rectangle scoresButton = new Raylib_cs.Rectangle(550, 530, 300, 90);
+
+        public bool mosOvrEsy = false;
+        public bool mosOvrMed = false;
+        public bool mosOvrHrd = false;
+        public bool mosOvrStg = false;
     }
 }
