@@ -1,25 +1,15 @@
-﻿using MinesweeperProject;
-using static Raylib_cs.Raylib;  // core methods (InitWindow, BeginDrawing())
-using static Raylib_cs.Color;   // color (RAYWHITE, MAROON, etc.)
-using static Raylib_cs.Raymath; // mathematics utilities and operations (Vector2Add, etc.)
-using System.Numerics;          // mathematics types (Vector2, Vector3, etc.)
-using Raylib_cs;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Text;
 
 namespace MinesweeperProject
 {
-    class HardBoard : Board
+    class MedBoard:Board
     {
-<<<<<<< Updated upstream
-        //new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[0, 0];
-        // function to draw initial array and create phantom array to track tiles
-=======
-        int width = 16;
-        int heigth = 30;
-        int maxBomb = 99;
         Random random = new Random();
+        int width = 16;
+        int heigth = 16;
+        int maxBomb = 40;
         new public string[,] GenBombs()
         {
             
@@ -44,18 +34,18 @@ namespace MinesweeperProject
 
                 }
             }
-            //see how many are around a sqaure
+            
             return size;
         }
         new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[16, 30];
-        new public string[,] clickBoard = new string[16, 30];
+        new public string[,] clickBoard = new string[16, 16];
         new public void GenBoard(int startX, int startY)
         {
 
             for (int i = 0; i < 16; i++)
             {
 
-                for (int j = 0; j < 30; j++)
+                for (int j = 0; j < 16; j++)
                 {
                     rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
                     clickBoard[i, j] = "";
@@ -122,7 +112,7 @@ namespace MinesweeperProject
                             }
                             //east
                             //more error trapping becuase im inefficent
-                            if (j != 29)
+                            if (j != 15)
                                 if (size[i, j + 1] == "#")
                                 {
                                     surrounded++;
@@ -139,7 +129,7 @@ namespace MinesweeperProject
                             }
                             //southeast
                             //i dont know if theres a simpler way to do this but i dont really care at this point
-                            if (j != 29)
+                            if (j != 15)
                                 if (size[i + 1, j + 1] == "#")
                                 {
                                     surrounded++;
@@ -286,6 +276,5 @@ namespace MinesweeperProject
                 }
             }
         }
->>>>>>> Stashed changes
     }
 }

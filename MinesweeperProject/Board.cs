@@ -13,8 +13,20 @@ namespace MinesweeperProject
         Random random = new Random();
         public string[,] size = { };
         public int bombCount = 0;
+<<<<<<< Updated upstream
         public string[,] Populate(int width, int heigth, int maxBomb)
         {
+=======
+        public Vector2 resetButton = new Vector2(30, 20);
+        public float resetCenter = 17;
+        int width = 0;
+        int heigth = 0;
+        int maxBomb = 0;
+        public string[,] GenBombs()
+        {
+            
+            bombCount = 0;
+>>>>>>> Stashed changes
             //Random random = new Random();
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
@@ -36,7 +48,30 @@ namespace MinesweeperProject
 
                 }
             }
-            //see how many are around a sqaure
+                        
+            return size;
+
+        }
+        //initial array to track game board and a shadow array to help track clicks
+        public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[0, 0];
+        public string[,] clickBoard = new string[0, 0];
+        // function to create an array of rectangles
+        public void GenBoard(int startX, int startY)
+        {
+
+            for (int i = 0; i < 0; i++)
+            {
+
+                for (int j = 0; j < 0; j++)
+                {
+                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
+                    clickBoard[i, j] = "";
+                }
+
+            }
+        }
+        public void GenNumbs()
+        {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < heigth; j++)
@@ -121,7 +156,7 @@ namespace MinesweeperProject
                         else if (i == width - 1)
                         {
                             //northweast
-                            if (j!=0)
+                            if (j != 0)
                                 if (size[i - 1, j - 1] == "#")
                                 {
                                     surrounded++;
@@ -194,7 +229,7 @@ namespace MinesweeperProject
                             if (size[i, j - 1] == "#")
                             {
                                 surrounded++;
-                            }                           
+                            }
                             //southwest
                             if (size[i + 1, j - 1] == "#")
                             {
@@ -257,6 +292,7 @@ namespace MinesweeperProject
 
                 }
             }
+<<<<<<< Updated upstream
             return size;
 
         }
@@ -277,6 +313,8 @@ namespace MinesweeperProject
                 }
 
             }
+=======
+>>>>>>> Stashed changes
         }
     }
 }
