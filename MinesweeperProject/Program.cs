@@ -59,6 +59,7 @@ namespace ConsoleApp1
                     {
                         difficulty = "menu";
                         lost = false;
+                        firstClick = false;
                     }
 
                     if (difficulty == "easy" && !lost)
@@ -118,13 +119,14 @@ namespace ConsoleApp1
                                                 {
                                                     if (easyBoard.size[x, y] == " ")
                                                     {
-                                                        easyBoard.size[x, i] = "#";
+                                                        easyBoard.size[x, y] = "#";
                                                         x = easyBoard.size.GetLength(0);
                                                         y = easyBoard.size.GetLength(1);
                                                     }
                                                 }
                                             }
                                             firstClick = true;
+                                            easyBoard.size[i, j] = " ";
                                             easyBoard.GenNumbs();
                                         }
                                         else
@@ -181,12 +183,13 @@ namespace ConsoleApp1
                                                 {
                                                     if (medBoard.size[x, y] == " ")
                                                     {
-                                                        medBoard.size[x, i] = "#";
+                                                        medBoard.size[x, y] = "#";
                                                         x = medBoard.size.GetLength(0);
                                                         y = medBoard.size.GetLength(1);
                                                     }
                                                 }
                                             }
+                                            easyBoard.size[i, j] = " ";
                                             firstClick = true;
                                             medBoard.GenNumbs();
                                         }
@@ -244,12 +247,13 @@ namespace ConsoleApp1
                                                 {
                                                     if (hardBoard.size[x, y] == " ")
                                                     {
-                                                        hardBoard.size[x, i] = "#";
+                                                        hardBoard.size[x, y] = "#";
                                                         x = hardBoard.size.GetLength(0);
                                                         y = hardBoard.size.GetLength(1);
                                                     }
                                                 }
                                             }
+                                            easyBoard.size[i, j] = " ";
                                             firstClick = true;
                                             hardBoard.GenNumbs();
                                         }
