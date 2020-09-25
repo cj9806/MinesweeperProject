@@ -12,6 +12,7 @@ namespace MinesweeperProject
             int width = 16;
             int heigth = 16;
             int maxBomb = 40;
+            bombCount = 0;
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
             {
@@ -90,7 +91,7 @@ namespace MinesweeperProject
                             }
                             //east
                             //more error trapping becuase im inefficent
-                            if (j != 29)
+                            if (j != 15)
                                 if (size[i, j + 1] == "#")
                                 {
                                     surrounded++;
@@ -107,7 +108,7 @@ namespace MinesweeperProject
                             }
                             //southeast
                             //i dont know if theres a simpler way to do this but i dont really care at this point
-                            if (j != 29)
+                            if (j != 15)
                                 if (size[i + 1, j + 1] == "#")
                                 {
                                     surrounded++;

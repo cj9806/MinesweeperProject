@@ -12,6 +12,7 @@ namespace MinesweeperProject
             int width = 8;
             int heigth = 8;
             int maxBomb = 10;
+            bombCount = 0;
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
             {
@@ -255,8 +256,8 @@ namespace MinesweeperProject
             }
             return size;
         }
-        new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[16, 30];
-        new public string[,] clickBoard = new string[16, 30];
+        new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[8, 8];
+        new public string[,] clickBoard = new string[8, 8];
         new public void GenBoard(int startX, int startY)
         {
 

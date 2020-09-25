@@ -13,11 +13,14 @@ namespace MinesweeperProject
         Random random = new Random();
         public string[,] size = { };
         public int bombCount = 0;
+        public Vector2 resetButton = new Vector2(700, 20);
+        public float resetCenter = 12;
         public string[,] Populate()
         {
             int width = 0;
             int heigth = 0;
             int maxBomb = 0;
+            bombCount = 0;
             //Random random = new Random();
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
@@ -281,9 +284,6 @@ namespace MinesweeperProject
 
             }
         }
-        public void floodFillTrial()
-        {
-
-        }
+       
     }
 }

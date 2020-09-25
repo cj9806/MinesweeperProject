@@ -18,6 +18,7 @@ namespace MinesweeperProject
             int width = 16;
             int heigth = 30;
             int maxBomb = 99;
+            bombCount = 0;
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
             {
