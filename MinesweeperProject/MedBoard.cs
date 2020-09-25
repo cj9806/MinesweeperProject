@@ -7,11 +7,11 @@ namespace MinesweeperProject
     class MedBoard:Board
     {
         Random random = new Random();
+        int width = 16;
+        int heigth = 16;
+        int maxBomb = 40;
         new public string[,] Populate()
         {
-            int width = 16;
-            int heigth = 16;
-            int maxBomb = 40;
             bombCount = 0;
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
@@ -34,6 +34,26 @@ namespace MinesweeperProject
                 }
             }
             //see how many are around a sqaure
+            return size;
+        }
+        new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[16, 30];
+        new public string[,] clickBoard = new string[16, 30];
+        new public void GenBoard(int startX, int startY)
+        {
+
+            for (int i = 0; i < 16; i++)
+            {
+
+                for (int j = 0; j < 16; j++)
+                {
+                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
+                    clickBoard[i, j] = "";
+                }
+
+            }
+        }
+        new public void GenNumbs()
+        {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < heigth; j++)
@@ -253,23 +273,6 @@ namespace MinesweeperProject
                         size[i, j] = surrounded.ToString();
 
                 }
-            }
-            return size;
-        }
-        new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[16, 30];
-        new public string[,] clickBoard = new string[16, 30];
-        new public void GenBoard(int startX, int startY)
-        {
-
-            for (int i = 0; i < 16; i++)
-            {
-
-                for (int j = 0; j < 16; j++)
-                {
-                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
-                    clickBoard[i, j] = "";
-                }
-
             }
         }
     }

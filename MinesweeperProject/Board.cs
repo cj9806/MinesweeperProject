@@ -13,13 +13,13 @@ namespace MinesweeperProject
         Random random = new Random();
         public string[,] size = { };
         public int bombCount = 0;
-        public Vector2 resetButton = new Vector2(700, 20);
-        public float resetCenter = 12;
+        public Vector2 resetButton = new Vector2(30, 20);
+        public float resetCenter = 15;
+        int width = 0;
+        int heigth = 0;
+        int maxBomb = 0;        
         public string[,] Populate()
         {
-            int width = 0;
-            int heigth = 0;
-            int maxBomb = 0;
             bombCount = 0;
             //Random random = new Random();
             size = new string[width, heigth];
@@ -43,6 +43,29 @@ namespace MinesweeperProject
                 }
             }
             //see how many are around a sqaure
+            return size;
+
+        }
+        //initial array to track game board and a shadow array to help track clicks
+        public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[0, 0];
+        public string[,] clickBoard = new string[0, 0];
+        // function to create an array of rectangles
+        public void GenBoard(int startX, int startY)
+        {
+
+            for (int i = 0; i < 0; i++)
+            {
+
+                for (int j = 0; j < 0; j++)
+                {
+                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
+                    clickBoard[i, j] = "";
+                }
+
+            }
+        }
+        public void GenNumbs()
+        {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < heigth; j++)
@@ -127,7 +150,7 @@ namespace MinesweeperProject
                         else if (i == width - 1)
                         {
                             //northweast
-                            if (j!=0)
+                            if (j != 0)
                                 if (size[i - 1, j - 1] == "#")
                                 {
                                     surrounded++;
@@ -200,7 +223,7 @@ namespace MinesweeperProject
                             if (size[i, j - 1] == "#")
                             {
                                 surrounded++;
-                            }                           
+                            }
                             //southwest
                             if (size[i + 1, j - 1] == "#")
                             {
@@ -262,26 +285,6 @@ namespace MinesweeperProject
                         size[i, j] = surrounded.ToString();
 
                 }
-            }
-            return size;
-
-        }
-        //initial array to track game board and a shadow array to help track clicks
-        public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[0, 0];
-        public string[,] clickBoard = new string[0, 0];
-        // function to create an array of rectangles
-        public void GenBoard(int startX, int startY)
-        {
-
-            for (int i = 0; i < 0; i++)
-            {
-
-                for (int j = 0; j < 0; j++)
-                {
-                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
-                    clickBoard[i, j] = "";
-                }
-
             }
         }
        

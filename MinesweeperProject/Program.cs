@@ -30,15 +30,16 @@ namespace ConsoleApp1
             EasyBoard easyBoard = new EasyBoard();
             MedBoard medBoard = new MedBoard();
             HardBoard hardBoard = new HardBoard();
-            Menu menu = new Menu();
-            string difficulty = "menu";
-            int score = 0;
+            Menu menu = new Menu();            
             //misc varibles
             //---------------------------------------------------------------------------
             int flagsLeft = 0;
             bool lost = false;
+            string difficulty = "menu";
+            int score = 0;
+            bool firstClick = false;
             //---------------------------------------------------------------------------
-            
+
 
             //main game loop
             while (!WindowShouldClose())
@@ -101,12 +102,37 @@ namespace ConsoleApp1
                                     if (easyBoard.size[i, j] != "#")
                                     {
                                         easyBoard.clickBoard[i, j] = "click";
-                                        //make sure square isnt a bomb                                
+                                        if (!firstClick)
+                                        {
+                                            easyBoard.GenNumbs();
+                                            firstClick = true;
+                                        }
                                     }
                                     else
                                     {
-                                        easyBoard.clickBoard[i, j] = "click";
-                                        lost = true;
+                                        if (!firstClick)
+                                        {
+                                            for (int x = 0; x < easyBoard.size.GetLength(0); x++)
+                                            {
+                                                for (int y = 0; y < easyBoard.size.GetLength(1); y++)
+                                                {
+                                                    if (easyBoard.size[x, y] == " ")
+                                                    {
+                                                        easyBoard.size[x, i] = "#";
+                                                        x = easyBoard.size.GetLength(0);
+                                                        y = easyBoard.size.GetLength(1);
+                                                    }
+                                                }
+                                            }
+                                            firstClick = true;
+                                            easyBoard.GenNumbs();
+                                        }
+                                        else
+                                        {
+                                            easyBoard.clickBoard[i, j] = "click";
+                                            lost = true;
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -139,12 +165,37 @@ namespace ConsoleApp1
                                     if (medBoard.size[i, j] != "#")
                                     {
                                         medBoard.clickBoard[i, j] = "click";
-                                        //make sure square isnt a bomb                                
+                                        if (!firstClick)
+                                        {
+                                            medBoard.GenNumbs();
+                                            firstClick = true;
+                                        }
                                     }
                                     else
                                     {
-                                        medBoard.clickBoard[i, j] = "click";
-                                        lost = true;
+                                        if (!firstClick)
+                                        {
+                                            for (int x = 0; x < medBoard.size.GetLength(0); x++)
+                                            {
+                                                for (int y = 0; y < medBoard.size.GetLength(1); y++)
+                                                {
+                                                    if (medBoard.size[x, y] == " ")
+                                                    {
+                                                        medBoard.size[x, i] = "#";
+                                                        x = medBoard.size.GetLength(0);
+                                                        y = medBoard.size.GetLength(1);
+                                                    }
+                                                }
+                                            }
+                                            firstClick = true;
+                                            medBoard.GenNumbs();
+                                        }
+                                        else
+                                        {
+                                            medBoard.clickBoard[i, j] = "click";
+                                            lost = true;
+                                        }
+
                                     }
                                 }
                             }
@@ -177,12 +228,37 @@ namespace ConsoleApp1
                                     if (hardBoard.size[i, j] != "#")
                                     {
                                         hardBoard.clickBoard[i, j] = "click";
-                                        //make sure square isnt a bomb                                
+                                        if (!firstClick)
+                                        {
+                                            hardBoard.GenNumbs();
+                                            firstClick = true;
+                                        }
                                     }
                                     else
                                     {
-                                        hardBoard.clickBoard[i, j] = "click";
-                                        lost = true;
+                                        if (!firstClick)
+                                        {
+                                            for (int x = 0; x < hardBoard.size.GetLength(0); x++)
+                                            {
+                                                for (int y = 0; y < hardBoard.size.GetLength(1); y++)
+                                                {
+                                                    if (hardBoard.size[x, y] == " ")
+                                                    {
+                                                        hardBoard.size[x, i] = "#";
+                                                        x = hardBoard.size.GetLength(0);
+                                                        y = hardBoard.size.GetLength(1);
+                                                    }
+                                                }
+                                            }
+                                            firstClick = true;
+                                            hardBoard.GenNumbs();
+                                        }
+                                        else
+                                        {
+                                            hardBoard.clickBoard[i, j] = "click";
+                                            lost = true;
+                                        }
+
                                     }
                                 }
                             }
@@ -237,9 +313,11 @@ namespace ConsoleApp1
                         menu.mosOvrStg = true;
                         if (leftClick)
                         {
-                            difficulty = "scores";                            
+                            difficulty = "scores";
                         }
                     }
+                    else
+                        menu.mosOvrStg = false;
                     
                 }
                 
@@ -329,7 +407,7 @@ namespace ConsoleApp1
                     }
 
                     //display flags left
-                    DrawText($"flags left:{flagsLeft}", 10, 10, 20, BLACK);
+                    DrawText($"flags left:{flagsLeft}", 50, 10, 20, BLACK);
                     
                 }
                 //draw medium board
@@ -392,9 +470,8 @@ namespace ConsoleApp1
                             }
                         }
                     }
-
                     //display flags left
-                    DrawText($"flags left:{flagsLeft}", 10, 10, 20, BLACK);
+                    DrawText($"flags left:{flagsLeft}", 50, 10, 20, BLACK);
                 }
                 //draw the hardest board
                 if (difficulty == "hard")
@@ -458,7 +535,7 @@ namespace ConsoleApp1
                     }
 
                     //display flags left
-                    DrawText($"flags left:{flagsLeft}", 10, 10, 20, BLACK);
+                    DrawText($"flags left:{flagsLeft}", 50, 10, 20, BLACK);
                 }
                 //draw the scores menu
                 if(difficulty == "scores")

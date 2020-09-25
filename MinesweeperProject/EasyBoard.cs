@@ -7,11 +7,11 @@ namespace MinesweeperProject
     class EasyBoard:Board
     {
         Random random = new Random();
+        int width = 8;
+        int heigth = 8;
+        int maxBomb = 10;
         new public string[,] Populate()
         {
-            int width = 8;
-            int heigth = 8;
-            int maxBomb = 10;
             bombCount = 0;
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)
@@ -33,7 +33,27 @@ namespace MinesweeperProject
 
                 }
             }
-            //see how many are around a sqaure
+            //see how many are around a sqaure            
+            return size;
+        }
+        new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[8, 8];
+        new public string[,] clickBoard = new string[8, 8];
+        new public void GenBoard(int startX, int startY)
+        {
+
+            for (int i = 0; i < 8; i++)
+            {
+
+                for (int j = 0; j < 8; j++)
+                {
+                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
+                    clickBoard[i, j] = "";
+                }
+
+            }
+        }
+        new public void GenNumbs()
+        {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < heigth; j++)
@@ -253,23 +273,6 @@ namespace MinesweeperProject
                         size[i, j] = surrounded.ToString();
 
                 }
-            }
-            return size;
-        }
-        new public Raylib_cs.Rectangle[,] rectangles = new Raylib_cs.Rectangle[8, 8];
-        new public string[,] clickBoard = new string[8, 8];
-        new public void GenBoard(int startX, int startY)
-        {
-
-            for (int i = 0; i < 8; i++)
-            {
-
-                for (int j = 0; j < 8; j++)
-                {
-                    rectangles[i, j] = new Raylib_cs.Rectangle(j * 45 + startY + j, i * 45 + startX + i, 45, 45);
-                    clickBoard[i, j] = "";
-                }
-
             }
         }
     }
