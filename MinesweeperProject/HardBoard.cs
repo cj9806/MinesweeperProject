@@ -16,9 +16,10 @@ namespace MinesweeperProject
         int width = 16;
         int heigth = 30;
         int maxBomb = 99;
+        new public int bombsLeft = 0;
         new public string[,] Populate()
         {
-            
+            bombsLeft = 99;
             bombCount = 0;
             size = new string[width, heigth];
             for (int i = 0; i < width; i++)

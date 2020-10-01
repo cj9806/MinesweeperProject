@@ -17,7 +17,8 @@ namespace MinesweeperProject
         public float resetCenter = 15;
         int width = 0;
         int heigth = 0;
-        int maxBomb = 0;        
+        int maxBomb = 0;
+        public int bombsLeft = 0;
         public string[,] Populate()
         {
             bombCount = 0;

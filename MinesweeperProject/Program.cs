@@ -7,6 +7,8 @@ using Raylib_cs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 
 namespace ConsoleApp1
 {
@@ -38,6 +40,11 @@ namespace ConsoleApp1
             string difficulty = "menu";
             int score = 0;
             bool firstClick = false;
+            bool won = false;
+            string scoreFilePath = @"C:\Users\cthep\source\repos\MinesweeperProject\MinesweeperProject\ScoreFIles.txt";
+            List<string> highscores = new List<string>();
+            highscores = File.ReadAllLines(scoreFilePath).ToList();
+
             //---------------------------------------------------------------------------
 
 
@@ -52,7 +59,7 @@ namespace ConsoleApp1
                 //-----------------------------------------------------------------------
                 //play step
                 //-----------------------------------------------------------------------
-                if (difficulty != "menu")
+                if (difficulty != "menu" && difficulty != "rec")
                 {
                     //reset button
                     if (CheckCollisionPointCircle(mousePos,Board.resetButton,Board.resetCenter) && leftClick)
@@ -60,9 +67,10 @@ namespace ConsoleApp1
                         difficulty = "menu";
                         lost = false;
                         firstClick = false;
+                        won = false;
                     }
 
-                    if (difficulty == "easy" && !lost)
+                    if (difficulty == "easy" && !lost && !won)
                     {
                         for (int i = 0; i < easyBoard.size.GetLength(0); i++)
                         {
@@ -80,7 +88,7 @@ namespace ConsoleApp1
                                         if (easyBoard.size[i, j] == "#")
                                         {
                                             score += 10;
-                                            easyBoard.size[i, j] = "+";
+                                            easyBoard.bombsLeft--;
                                         }
                                     }
                                     //pick up flags
@@ -89,10 +97,12 @@ namespace ConsoleApp1
                                         easyBoard.clickBoard[i, j] = "";
                                         flagsLeft++;
                                         //adjust score
-                                        if (easyBoard.size[i,j] == "+")
+                                        if (easyBoard.size[i,j] == "#")
                                         {
                                             score -= 10;
-                                            easyBoard.size[i, j] = "#";
+                                            easyBoard.bombsLeft++;
+                                            if (easyBoard.bombsLeft < 1)
+                                                won = true;
                                         }
                                     }
                                 }
@@ -108,6 +118,7 @@ namespace ConsoleApp1
                                             easyBoard.GenNumbs();
                                             firstClick = true;
                                         }
+                                        score += 5;
                                     }
                                     else
                                     {
@@ -139,8 +150,10 @@ namespace ConsoleApp1
                                 }
                             }
                         }
+                        if (won)
+                            score *= 10;
                     }
-                    if (difficulty == "medium" && !lost)
+                    if (difficulty == "medium" && !lost&&!won)
                     {
                         for (int i = 0; i < medBoard.size.GetLength(0); i++)
                         {
@@ -153,11 +166,28 @@ namespace ConsoleApp1
                                     {
                                         medBoard.clickBoard[i, j] = "flag";
                                         flagsLeft--;
+                                        //keep score
+                                        if (medBoard.size[i, j] == "#")
+                                        {
+                                            score += 10;
+                                            medBoard.size[i, j] = "+";
+                                            medBoard.bombsLeft--;
+                                        }
                                     }
+                                    //pick up flags
                                     else if (medBoard.clickBoard[i, j] == "flag")
                                     {
                                         medBoard.clickBoard[i, j] = "";
                                         flagsLeft++;
+                                        //adjust score
+                                        if (medBoard.size[i, j] == "+")
+                                        {
+                                            score -= 10;
+                                            medBoard.size[i, j] = "#";
+                                            medBoard.bombsLeft++;
+                                            if (medBoard.bombsLeft == 0)
+                                                won = true;
+                                        }
                                     }
                                 }
 
@@ -172,6 +202,7 @@ namespace ConsoleApp1
                                             medBoard.GenNumbs();
                                             firstClick = true;
                                         }
+                                        score += 5;
                                     }
                                     else
                                     {
@@ -203,8 +234,10 @@ namespace ConsoleApp1
                                 }
                             }
                         }
+                        if (won)
+                            score *= 100;
                     }
-                    if (difficulty == "hard" && !lost)
+                    if (difficulty == "hard" && !lost&&!won)
                     {
                         for (int i = 0; i < hardBoard.size.GetLength(0); i++)
                         {
@@ -217,11 +250,28 @@ namespace ConsoleApp1
                                     {
                                         hardBoard.clickBoard[i, j] = "flag";
                                         flagsLeft--;
+                                        //keep score
+                                        if (hardBoard.size[i, j] == "#")
+                                        {
+                                            score += 10;
+                                            hardBoard.size[i, j] = "+";
+                                            hardBoard.bombsLeft--;
+                                        }
                                     }
+                                    //pick up flags
                                     else if (hardBoard.clickBoard[i, j] == "flag")
                                     {
                                         hardBoard.clickBoard[i, j] = "";
                                         flagsLeft++;
+                                        //adjust score
+                                        if (hardBoard.size[i, j] == "+")
+                                        {
+                                            score -= 10;
+                                            hardBoard.size[i, j] = "#";
+                                            hardBoard.bombsLeft++;
+                                            if (hardBoard.bombsLeft == 0)
+                                                won = true;
+                                        }
                                     }
                                 }
 
@@ -236,6 +286,7 @@ namespace ConsoleApp1
                                             hardBoard.GenNumbs();
                                             firstClick = true;
                                         }
+                                        score += 5;
                                     }
                                     else
                                     {
@@ -267,6 +318,8 @@ namespace ConsoleApp1
                                 }
                             }
                         }
+                        if (won)
+                            score *= 1000;
                     }
                     
                 }
@@ -324,6 +377,27 @@ namespace ConsoleApp1
                         menu.mosOvrStg = false;
                     
                 }
+                if (difficulty == "rec")
+                {
+                    highscores.Add(score.ToString());
+                    highscores.Sort();
+                    File.WriteAllLines(scoreFilePath, highscores);
+                }
+                if (won || lost)
+                {
+                    if (leftClick)
+                    {
+                        difficulty = "rec";
+                        won = false;
+                        lost = false;
+                        if (leftClick)
+                        {
+                            difficulty = "scores";
+                            score = 0;
+                        }
+                    }
+                }
+
                 
                 //-----------------------------------------------------------------------
                 //draw step
@@ -544,7 +618,24 @@ namespace ConsoleApp1
                 //draw the scores menu
                 if(difficulty == "scores")
                 {
-
+                    DrawText("scores:", 650, 10, 50, BLACK);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        DrawText(highscores[i], 650, 70 + i * 10, 50, BLACK);
+                    }
+                }
+                if (difficulty == "rec")
+                {
+                    DrawText("You Scored:", 450, 10, 50, BLACK);
+                    DrawText($"{score} Points", 450, 70, 50, BLACK);
+                }    
+                if (won)
+                {
+                    DrawText("YOU WIN!", 475, 10, 100, WHITE);
+                }
+                if (lost)
+                {
+                    DrawText("YOU WIN!", 475, 10, 100, WHITE);
                 }
                 //DrawLine(700, 0, 700, 800, BLACK);
                 EndDrawing();

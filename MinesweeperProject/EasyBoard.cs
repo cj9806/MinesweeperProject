@@ -10,6 +10,7 @@ namespace MinesweeperProject
         int width = 8;
         int heigth = 8;
         int maxBomb = 10;
+        new public int bombsLeft = 10;
         new public string[,] Populate()
         {
             bombCount = 0;
